@@ -1,0 +1,21 @@
+{
+  "name": "com.fluffylibrary",
+  "displayName": "Fluffy Library",
+  "author": {
+    "name": "Dominique",
+    "url": "https://www.fluffycornie.com/"
+  },
+  "version": "0.0.1",
+  "unity": "2020.1",
+  "description": "FluffyLibrary",
+  "keywords": [
+    "Framework"
+  ],
+  "license": "MIT",
+  "category": "Framework",
+  "dependencies": {
+    "com.cysharp.unitask": "2.5.0",
+    "com.unity.addressables": "1.21.19",
+    "com.unity.inputsystem": "1.7.0"
+  }
+}

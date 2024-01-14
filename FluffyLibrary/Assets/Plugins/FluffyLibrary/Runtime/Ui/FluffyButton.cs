@@ -1,0 +1,77 @@
+using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
+using Console = FluffyLibrary.Util.Console;
+
+namespace FluffyLibrary.Ui
+{
+    public class FluffyButton : MonoBehaviour
+    {
+        [SerializeField] private Button _button;
+        
+        private readonly List<Func<UniTask>> _asyncCallbacks = new();
+        private readonly List<Action> _callbacks = new();
+
+        private void Awake()
+        {
+            if (_button == default)
+            {
+                Console.LogWarning("FluffyButton", $"{gameObject.name} Button component not found");
+                return;
+            }
+            
+            _button.onClick.AddListener(ClickAsync);
+        }
+
+        private void OnDestroy()
+        {
+            if (_button == default)
+            {
+                return;
+            }
+            
+            _button.onClick.RemoveAllListeners();
+        }
+
+        public void OnClick(Action callback)
+        {
+            if (_callbacks.Contains(callback))
+            {
+                _callbacks.Remove(callback);
+            }
+            
+            _callbacks.Add(callback);
+        }
+
+        public void OnClickAsync(Func<UniTask> callback)
+        {
+            if (_asyncCallbacks.Contains(callback))
+            {
+                _asyncCallbacks.Remove(callback);
+            }
+            
+            _asyncCallbacks.Add(callback);
+        }
+
+        public void ClearOnClick()
+        {
+            _asyncCallbacks.Clear();
+            _callbacks.Clear();
+        }
+
+        private void ClickAsync()
+        {
+            foreach (var callback in _callbacks)
+            {
+                callback.Invoke();
+            }
+            
+            foreach (var callback in _asyncCallbacks)
+            {
+                callback.Invoke().Forget();
+            }
+        }
+    }
+}
