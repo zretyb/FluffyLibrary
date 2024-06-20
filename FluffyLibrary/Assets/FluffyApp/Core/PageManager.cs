@@ -13,14 +13,31 @@ namespace FluffyApp.Core
             Dialogue = 2,
             Overlay = 3,
         }
-
-        public PageModelT<TData> OpenPage<T, TData>(TData data, PageLayer pageLayer) where T : IPage
+        public PageModel OpenPage<T>(PageLayer pageLayer) where T : IPage
         {
             var componentName = typeof(T).Name;
             var layerModel = new LayerModel();
             layerModel.SetHolderIndex((int)pageLayer);
             
-            var pageModel = new PageModelT<TData>()
+            var pageModel = new PageModel<int>()
+            {
+                ComponentName = componentName,
+                LayerModel = layerModel,
+                Address = string.Format(PageAddress, componentName)
+            };
+            
+            OpenPage(pageModel);
+
+            return pageModel;
+        }
+
+        public PageModel<TData> OpenPage<T, TData>(TData data, PageLayer pageLayer) where T : BasePage<TData>
+        {
+            var componentName = typeof(T).Name;
+            var layerModel = new LayerModel();
+            layerModel.SetHolderIndex((int)pageLayer);
+            
+            var pageModel = new PageModel<TData>()
             {
                 ComponentName = componentName,
                 LayerModel = layerModel,
