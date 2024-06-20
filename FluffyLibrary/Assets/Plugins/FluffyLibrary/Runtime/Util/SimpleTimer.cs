@@ -23,7 +23,7 @@ namespace FluffyLibrary.Util
 
         public void Start()
         {
-            _token.CreateToken();
+            _token.ResetToken();
             TimerAsync(_token.Token).Forget();
         }
 
