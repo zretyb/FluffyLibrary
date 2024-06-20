@@ -12,6 +12,8 @@ namespace FluffyLibrary.Util
         private readonly Action<SimpleTimer, int> _tickCallback;
         private readonly SimpleToken _token = new();
 
+        public int Count => _count;
+        
         public SimpleTimer(int interval, int count = -1, Action<SimpleTimer, int> tickCallback = null,
             Action<SimpleTimer> endCallback = null)
         {
