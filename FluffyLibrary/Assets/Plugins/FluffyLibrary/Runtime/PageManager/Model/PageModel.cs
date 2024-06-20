@@ -1,7 +1,12 @@
-﻿using System;
+using System;
 
 namespace FluffyLibrary.PageManager.Model
 {
+    public class PageModel<T> : PageModel
+    {
+        public T Data { get; set; }
+    }
+    
     public class PageModel
     {
         private LayerModel _layerModel;
@@ -14,6 +19,8 @@ namespace FluffyLibrary.PageManager.Model
         
         public Action<PageModel> TransitOutStarted;
         public Action<PageModel> TransitOutEnded;
+
+        public bool IsPageRemoved;
 
 
         public string ComponentName { get; set; }
