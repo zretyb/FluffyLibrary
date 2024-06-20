@@ -1,13 +1,15 @@
+using System;
 using System.Threading;
 
 namespace FluffyLibrary.Util
 {
-    public class SimpleToken
+    public class SimpleToken : IDisposable
     {
-        private CancellationTokenSource _tokenSource;
-        public CancellationToken Token => _tokenSource?.Token ?? default;
+        private CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
-        public CancellationToken CreateToken()
+        public CancellationToken Token => _tokenSource.Token;
+
+        public CancellationToken ResetToken()
         {
             CancelToken();
             _tokenSource = new CancellationTokenSource();
@@ -16,9 +18,13 @@ namespace FluffyLibrary.Util
 
         public void CancelToken()
         {
-            if (_tokenSource != null) _tokenSource.Cancel();
-
+            _tokenSource?.Cancel();
             _tokenSource = null;
+        }
+
+        public void Dispose()
+        {
+            _tokenSource?.Dispose();
         }
     }
 }
