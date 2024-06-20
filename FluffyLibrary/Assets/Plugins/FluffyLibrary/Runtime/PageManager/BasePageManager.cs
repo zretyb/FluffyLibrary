@@ -109,6 +109,7 @@ namespace FluffyLibrary.PageManager
             {
                 pageModel.PageRemoved?.Invoke(pageModel);
                 PageController.RemovePage(pageModel.Page);
+                pageModel.IsPageRemoved = true;
                 await UniTask.CompletedTask;
             }
         }
