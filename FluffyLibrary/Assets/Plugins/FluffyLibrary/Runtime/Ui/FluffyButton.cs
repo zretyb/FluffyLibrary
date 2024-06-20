@@ -14,6 +14,10 @@ namespace FluffyLibrary.Ui
         private readonly List<Func<UniTask>> _asyncCallbacks = new();
         private readonly List<Action> _callbacks = new();
 
+        public virtual void SetLabel(string value)
+        {
+        }
+
         private void Awake()
         {
             if (_button == default)
