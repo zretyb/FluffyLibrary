@@ -11,13 +11,13 @@ namespace FluffyLibrary.CameraManager
 
         public Camera BaseCamera { get; private set; }
 
-        public void AddCamera(Camera cam)
+        public void AddCamera(Camera cam, bool updateCameraStack = true)
         {
             if (_cameras.Contains(cam)) return;
 
             _cameras.Add(cam);
 
-            UpdateCameraStack();
+            if (updateCameraStack) UpdateCameraStack();
         }
 
         public void InsertCamera(int index, Camera cam, bool updateCameraStack = true)
@@ -36,6 +36,12 @@ namespace FluffyLibrary.CameraManager
                 return;
             }
 
+            if(cam == default)
+            {
+                if (updateCameraStack) UpdateCameraStack();
+                return;
+            }
+
             if (!_cameras.Contains(cam)) return;
             
             if (BaseCamera != cam)
@@ -50,13 +56,17 @@ namespace FluffyLibrary.CameraManager
             if (updateCameraStack) UpdateCameraStack();
         }
 
-        private void UpdateCameraStack()
+        public void UpdateCameraStack()
         {
+            if (_cameras.Count == 0) return;
+
+            _cameras.RemoveAll(cam => cam == default);
+
             if (_cameras.Count == 0) return;
 
             var newBaseCamera = _cameras.First();
 
-            if (BaseCamera == newBaseCamera) return;
+            // if (BaseCamera == newBaseCamera) return;
 
             foreach (var cam in _cameras)
                 if (cam == newBaseCamera)
@@ -93,8 +103,16 @@ namespace FluffyLibrary.CameraManager
 
         private static void RemoveFromCameraStack(Camera baseCamera, Camera overlayCamera)
         {
+            if (baseCamera == default || overlayCamera == default)
+            {
+                return;
+            }
+
             var camData = baseCamera.GetUniversalAdditionalCameraData();
-            camData.cameraStack.Remove(overlayCamera);
+            if (camData != default)
+            {
+                camData.cameraStack.Remove(overlayCamera);
+            }
         }
     }
 }
