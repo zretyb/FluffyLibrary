@@ -4,6 +4,20 @@ using UnityEngine;
 
 namespace FluffyLibrary.PageManager
 {
+    public class BasePage<T> : BasePage
+    {
+        public T Data { get; private set; }
+
+        public override void SetPageModel(PageModel pageModel)
+        {
+            base.SetPageModel(pageModel);
+            if (pageModel is PageModel<T> pageModelT)
+            {
+                Data = pageModelT.Data;
+            }
+        }
+    }
+    
     public class BasePage : MonoBehaviour, IPage
     {
         public GameObject PageObject => gameObject;
