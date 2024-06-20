@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,16 +7,30 @@ namespace FluffyLibrary.Util
 {
     public class SimplePrefabPool<T> where T : Component
     {
-        private readonly T _component;
-        private readonly Stack<T> _list = new();
-        private readonly List<T> _spawned = new();
-        private readonly Transform _poolHolder;
+        private Stack<T> _list = new ();
+        private T _component;
+        private Transform _poolHolder;
+        private List<T> _spawnedList = new ();
 
+        public int SpawnedCount => _spawnedList.Count;
+
+        public List<T> SpawnedList => _spawnedList.ToList();
+        
+        public SimplePrefabPool(T component)
+        {
+            _component = component;
+            _poolHolder = component.transform.parent;
+        }
+        
         public SimplePrefabPool(T component, Transform poolHolder)
         {
             _component = component;
             _poolHolder = poolHolder;
-            _component.transform.SetParent(_poolHolder, false);
+        }
+
+        public T Spawn()
+        {
+            return Spawn(_poolHolder);
         }
 
         public T Spawn(Transform target)
@@ -23,33 +38,52 @@ namespace FluffyLibrary.Util
             if (_list.Count > 0)
             {
                 var fromPool = _list.Pop();
-                fromPool.transform.SetParent(target);
-                _spawned.Add(fromPool);
+                if (target == _poolHolder)
+                {
+                    fromPool.transform.SetAsLastSibling();
+                }
+                else
+                {
+                    fromPool.transform.SetParent(target);
+                }
+                if (!_spawnedList.Contains(fromPool))
+                {
+                    _spawnedList.Add(fromPool);
+                }
                 return fromPool;
             }
 
             var result = Object.Instantiate(_component, target);
-            _spawned.Add(result);
+            if (!_spawnedList.Contains(result))
+            {
+                _spawnedList.Add(result);
+            }
             return result;
         }
 
         public void Return(T component)
         {
-            if (_spawned.Contains(component))
-            {
-                _spawned.Remove(component);
-            }
-
             component.transform.SetParent(_poolHolder);
+            if (_spawnedList.Contains(component))
+            {
+                _spawnedList.Remove(component);
+            }
             _list.Push(component);
         }
 
-        public void ReturnAll()
+        public List<T> ReturnAll()
         {
-            foreach (var spawned in _spawned.ToList())
+            var returned = new List<T>();
+            foreach (var component in _spawnedList.Where(component => component != default))
             {
-                Return(spawned);
+                component.transform.SetParent(_poolHolder);
+                _list.Push(component);
+                returned.Add(component);
             }
+            
+            _spawnedList.Clear();
+
+            return returned;
         }
     }
 }
