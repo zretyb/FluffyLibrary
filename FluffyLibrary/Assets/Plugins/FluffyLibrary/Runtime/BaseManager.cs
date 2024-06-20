@@ -26,5 +26,9 @@ namespace FluffyLibrary
             var result = manager.GetComponent<T>();
             return result;
         }
+
+        public virtual void SlowUpdate()
+        {
+        }
     }
 }
