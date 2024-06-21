@@ -33,6 +33,15 @@ namespace FluffyLibrary.PageManager
             _baseActionManager.AddQueue(action);
         }
 
+        public void ClosePage<T>() where T : IPage
+        {
+            var pageModel = PageController.GetPageByType<T>();
+            if (pageModel != default)
+            {
+                ClosePage(pageModel);
+            }
+        }
+
         public void CloseAllPages()
         {
             var action = new CloseAllPagesAction(this);
