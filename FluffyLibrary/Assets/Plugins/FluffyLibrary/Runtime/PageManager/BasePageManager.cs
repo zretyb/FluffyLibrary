@@ -35,10 +35,10 @@ namespace FluffyLibrary.PageManager
 
         public void ClosePage<T>() where T : IPage
         {
-            var pageModel = PageController.GetPageByType<T>();
-            if (pageModel != default)
+            var page = PageController.GetPageByType<T>();
+            if (page != null && page.PageModel != default)
             {
-                ClosePage(pageModel);
+            ClosePage(page.PageModel);
             }
         }
 
