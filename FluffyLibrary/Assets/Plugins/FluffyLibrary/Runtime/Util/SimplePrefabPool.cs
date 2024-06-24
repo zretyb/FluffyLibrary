@@ -14,7 +14,7 @@ namespace FluffyLibrary.Util
 
         public int SpawnedCount => _spawnedList.Count;
 
-        public List<T> SpawnedList => _spawnedList.ToList();
+        public List<T> SpawnedList => _spawnedList;
         
         public SimplePrefabPool(T component)
         {
