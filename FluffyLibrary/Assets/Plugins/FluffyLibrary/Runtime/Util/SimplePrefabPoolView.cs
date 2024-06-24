@@ -48,6 +48,15 @@ namespace FluffyLibrary
             _modelToCompMapping.TryGetValue(model, out var result);
             return result;
         }
+
+        public virtual TComp AddModel(TModel model)
+        {
+            _models.Add(model);
+            var comp = _compPool.Spawn(transform);
+            UpdateComp(model, comp);
+            _modelToCompMapping[model] = comp;
+            return comp;
+        }
         
         public virtual void AddModels(List<TModel> models)
         {
