@@ -67,6 +67,7 @@ namespace FluffyLibrary.Ui
 
         private void ClickAsync()
         {
+            ClickAction();
             foreach (var callback in _callbacks)
             {
                 callback.Invoke();
@@ -76,6 +77,10 @@ namespace FluffyLibrary.Ui
             {
                 callback.Invoke().Forget();
             }
+        }
+
+        protected virtual void ClickAction()
+        {
         }
     }
 }
