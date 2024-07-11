@@ -12,7 +12,7 @@ namespace FluffyLibrary
         
         [SerializeField] protected TComp _comp; 
         
-        private SimplePrefabPool<TComp> _compPool;
+        protected SimplePrefabPool<TComp> _compPool;
         protected readonly List<TModel> _models = new();
         protected readonly Dictionary<TModel, TComp> _modelToCompMapping = new();
 
