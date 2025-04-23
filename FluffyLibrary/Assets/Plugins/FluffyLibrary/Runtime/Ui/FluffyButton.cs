@@ -7,7 +7,7 @@ using Console = FluffyLibrary.Util.Console;
 
 namespace FluffyLibrary.Ui
 {
-    public partial class FluffyButton : MonoBehaviour
+    public class FluffyButton : MonoBehaviour
     {
         [SerializeField] protected Button _button;
         
