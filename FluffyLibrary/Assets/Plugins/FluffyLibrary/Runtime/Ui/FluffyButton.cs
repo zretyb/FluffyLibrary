@@ -7,12 +7,12 @@ using Console = FluffyLibrary.Util.Console;
 
 namespace FluffyLibrary.Ui
 {
-    public class FluffyButton : MonoBehaviour
+    public partial class FluffyButton : MonoBehaviour
     {
-        [SerializeField] private Button _button;
+        [SerializeField] protected Button _button;
         
-        private readonly List<Func<UniTask>> _asyncCallbacks = new();
-        private readonly List<Action> _callbacks = new();
+        protected readonly List<Func<UniTask>> _asyncCallbacks = new();
+        protected readonly List<Action> _callbacks = new();
 
         public virtual void SetLabel(string value)
         {
