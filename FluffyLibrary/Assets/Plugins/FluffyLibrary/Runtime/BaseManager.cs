@@ -30,5 +30,9 @@ namespace FluffyLibrary
         public virtual void SlowUpdate()
         {
         }
+
+        public virtual void Clear()
+        {
+        }
     }
 }
