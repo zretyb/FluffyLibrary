@@ -7,7 +7,7 @@ namespace FluffyApp.Modules.Lobby
     {
         public void Start()
         {
-            FluffyApp.GetManager<PageManager>().OpenPage<PageLobby, string>("Lobby", PageManager.PageLayer.Default);
+            FluffyApp.GetManager<PageManager>().OpenPage<PageLobby>(PageManager.PageLayer.Default);
         }
     }
 }
