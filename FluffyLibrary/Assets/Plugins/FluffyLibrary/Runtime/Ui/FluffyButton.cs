@@ -9,7 +9,7 @@ using Console = FluffyLibrary.Util.Console;
 
 namespace FluffyLibrary.Ui
 {
-    public class FluffyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+    public class FluffyButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] protected Button _button;
         
@@ -125,6 +125,14 @@ namespace FluffyLibrary.Ui
         {
             callback.Invoke();
         }
+    }
+
+    public virtual void OnPointerEnter(PointerEventData eventData)
+    {
+    }
+
+    public virtual void OnPointerExit(PointerEventData eventData)
+    {
     }
     }
 }
