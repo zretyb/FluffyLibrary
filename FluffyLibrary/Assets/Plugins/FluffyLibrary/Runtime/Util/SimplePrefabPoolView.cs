@@ -18,7 +18,7 @@ namespace FluffyLibrary
 
         private bool _inited;
 
-        public List<TComp> SpawnedList => _compPool.SpawnedList;
+        public readonly List<TComp> SpawnedList = new();
 
         public void Awake()
         {
@@ -54,6 +54,7 @@ namespace FluffyLibrary
             _models.Add(model);
             var comp = _compPool.Spawn(transform);
             UpdateComp(model, comp);
+            SpawnedList.Add(comp);
             _modelToCompMapping[model] = comp;
             return comp;
         }
@@ -67,6 +68,7 @@ namespace FluffyLibrary
                 var model = models[i];
                 var comp = _compPool.Spawn(transform);
                 UpdateComp(model, comp);
+                SpawnedList.Add(comp);
                 _modelToCompMapping[model] = comp;
             }
         }
@@ -89,7 +91,8 @@ namespace FluffyLibrary
             {
                 comp.gameObject.SetActive(false);
             }
-            
+
+            SpawnedList.Clear();
             _models.Clear();
             _modelToCompMapping.Clear();
         }
